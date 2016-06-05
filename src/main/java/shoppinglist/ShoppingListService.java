@@ -30,4 +30,8 @@ public class ShoppingListService {
   public List<ShoppingListItem> getItems(String listId) {
     return repository.findOne(listId).items;
   }
+
+  public ShoppingList getList(String listId) {
+    return repository.findWithNonDeletedItems(listId);
+  }
 }
