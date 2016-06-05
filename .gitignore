@@ -15,7 +15,6 @@
 *.dmg
 *.gz
 *.iso
-*.jar
 *.rar
 *.tar
 *.zip
@@ -38,8 +37,4 @@ Thumbs.db
 # Unversioned files
 .gradle/
 .idea/
-gradle/
-gradlew
-gradlew.bat
-settings.gradle
 shopping-list.iml
