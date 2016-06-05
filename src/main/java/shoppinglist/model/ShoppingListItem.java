@@ -7,11 +7,11 @@ import java.util.Date;
 public class ShoppingListItem {
   @Id
   @GeneratedValue(strategy= GenerationType.AUTO)
-  long id;
+  public long id;
   @JoinColumn(name = "listId")
   @ManyToOne(fetch = FetchType.LAZY)
   ShoppingList list;
-  boolean isBought;
+  public boolean isBought;
   public String item;
   public Date boughtDate;
   public Date addedDate;
@@ -24,5 +24,12 @@ public class ShoppingListItem {
     this.item = item;
     this.addedDate = new Date();
     this.list = list;
+  }
+
+  public void buyItem() {
+    if (!isBought) {
+      isBought = true;
+      boughtDate = new Date();
+    }
   }
 }

@@ -9,7 +9,7 @@ import shoppinglist.model.ShoppingList;
 @Repository
 public interface ShoppingListRepository extends CrudRepository<ShoppingList, String> {
 
-  @Query("select sl from ShoppingList sl left join fetch sl.items i where sl.id=:id and i.isBought=false")
+  @Query("select sl from ShoppingList sl left join fetch sl.items i  where sl.id=:id and (i.isBought = false or i.id is null)")
   ShoppingList findWithNonDeletedItems(@Param("id") String id);
 
 }

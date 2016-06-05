@@ -8,8 +8,6 @@ import org.springframework.web.bind.annotation.RestController;
 import shoppinglist.model.ShoppingList;
 import shoppinglist.model.ShoppingListItem;
 
-import java.util.List;
-
 @RestController
 public class ShoppingListController {
   @Autowired
@@ -26,9 +24,18 @@ public class ShoppingListController {
   }
 
   @RequestMapping("/{listId}/addItem")
-  public String addItem(@PathVariable String listId, @RequestParam String item) {
-    shoppingListService.addItem(listId, item);
-    return "";
+  public ShoppingListItem addItem(@PathVariable String listId, @RequestParam String item) {
+    return shoppingListService.addItem(listId, item);
+  }
+
+  @RequestMapping("/{listId}/deleteItem")
+  public void deleteItem(@PathVariable String listId, @RequestParam long itemId) {
+    shoppingListService.deleteItem(listId, itemId);
+  }
+
+  @RequestMapping("/{listId}/buyItem")
+  public ShoppingListItem buyItem(@PathVariable String listId, @RequestParam long itemId) {
+    return shoppingListService.buyItem(listId, itemId);
   }
 
 

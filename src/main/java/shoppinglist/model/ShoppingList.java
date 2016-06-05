@@ -13,7 +13,7 @@ public class ShoppingList {
   public Date creationDate;
   public String name;
 
-  @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "list")
+  @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "list")
   public List<ShoppingListItem> items;
 
   public ShoppingList() {

@@ -10,4 +10,8 @@ import java.util.List;
 public interface ShoppingListItemRepository extends CrudRepository<ShoppingListItem, Long> {
   List<ShoppingListItem> findByListIdAndIsBoughtFalse(String listId);
 
+  ShoppingListItem findByIdAndListId(Long id, String listId);
+
+  Long deleteByIdAndListId(Long id, String listId);
+
 }
