@@ -1,6 +1,7 @@
 (function (w) {
 	console.log('app.js');
 	var APP = {
+		listId: null,
 		items : [],
 		root : document.getElementById('content')
 	};
@@ -9,13 +10,29 @@
 				return d.getElementById(id);
 			};
 
-	var routeInfo = window.location.pathname.split('/');
+	var routeInfo = window.location.pathname.split('/'),
+			params = getSearchParams().id;
+
 	if(routeInfo[1].length > 0) {
 		console.log('listId present: ', routeInfo[1]);
+		loadTemplate('list');
+	} else if(params !== undefined){
+	 	APP.listId = params;
 		loadTemplate('list');
 	} else {
 		console.log('no list id: ', routeInfo);
 		loadTemplate('welcome');
+	}
+
+	function getSearchParams() {
+		var params = location.search.substring(1).split('&');
+		var result = {};
+		params.forEach(function (p) {
+			p = p.split('=');
+			result[p[0]] = p[1];
+		});
+
+		return result;
 	}
 
 	function loadTemplate(name) {
@@ -27,15 +44,60 @@
 					byId('btnCreateList').addEventListener('click', function () {
 						if(name.value.length !== 0) {
 							console.log('creating new list');
-							req('GET', '/newList', function (res) {
-								console.log('new list res: ', res);
+							req('GET', '/newlist', function (res) {
+								res = JSON.parse(res);
+								// APP.items = res.items || [];
+								// APP.name = res.name;
+								APP.listId = res.id;
+								console.log('res.id:', res.id);
+								window.history.pushState({}, "", "/list/" + res.id);
+								loadTemplate('list')
 							})
 						}
 					});
 
 				});
 				break;
+			case 'list':
+				req('GET', '/html/list.html', function (response) {
+					if(APP.listId) {
+						req('GET', '/' + APP.listId, function (response) {
+							response = JSON.parse(response);
+							console.log('response', response);
+
+							response.items.forEach(function (item) {
+								addItem(item.item);
+							})
+						});
+					}
+
+					APP.root.innerHTML = response;
+					APP.itemList = byId('itemList');
+
+					var itemInput = byId('inputAddItem');
+
+					byId('btnAddItem').addEventListener('click', function () {
+						if(itemInput.value.length > 0) {
+							APP.items.push(itemInput.value);
+							persistItem(itemInput.value);
+						}
+					});
+
+				});
+				break;
 		}
+	}
+
+	function persistItem(val) {
+		req('GET', '/' +APP.listId + '/addItem?item=' + val, function () {
+			addItem(val);
+		});
+	}
+
+	function addItem(val) {
+		var item = d.createElement('li');
+		item.innerText = val;
+		APP.itemList.appendChild(item);
 	}
 
 	function req(method, url, cb) {

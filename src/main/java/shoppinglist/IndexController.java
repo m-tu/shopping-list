@@ -3,6 +3,7 @@ package shoppinglist;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class IndexController {
@@ -12,10 +13,10 @@ public class IndexController {
     return "html/index.html";
   }
 
-  @RequestMapping("/list/{listId}")
-  public String list(@PathVariable("listId") String listId) {
-    System.out.println("Getting list by id: " + listId);
-    return "html/index.html";
+  @RequestMapping(value = "/list/{someid}")
+  public String list(@PathVariable("someid") String someid) {
+    System.out.println("List");
+    return "html/list.html";
   }
 
 }

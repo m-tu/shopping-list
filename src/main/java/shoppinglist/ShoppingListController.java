@@ -15,6 +15,7 @@ public class ShoppingListController {
 
   @RequestMapping("/{listId}")
   public ShoppingList list(@PathVariable String listId) {
+    System.out.printf("Getting list: " + listId);
     return shoppingListService.getList(listId);
   }
 
