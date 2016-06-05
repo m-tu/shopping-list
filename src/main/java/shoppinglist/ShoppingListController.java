@@ -20,6 +20,7 @@ public class ShoppingListController {
 
   @RequestMapping("/newlist")
   public ShoppingList newList(@RequestParam(required = false) String name) {
+    System.out.println("Creating list with name: " + name);
     return shoppingListService.createList(name);
   }
 
