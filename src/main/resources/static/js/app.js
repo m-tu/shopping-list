@@ -1,23 +1,19 @@
 (function (w) {
-	console.log('app.js');
 	var APP = {
 		listId: null,
 		items : [],
 		root : document.getElementById('content')
 	};
- 	var d = document,
+	var d = document,
 			byId = function(id) {
 				return d.getElementById(id);
 			};
 
-	var routeInfo = window.location.pathname.split('/'),
-			params = getSearchParams().id;
+	var routeInfo = window.location.pathname.split('/');
 
-	if(routeInfo[1].length > 0) {
-		console.log('listId present: ', routeInfo[1]);
-		loadTemplate('list');
-	} else if(params !== undefined){
-	 	APP.listId = params;
+	if(routeInfo[2].length > 0) {
+		console.log('listId present: ', routeInfo[2]);
+		APP.listId = routeInfo[2];
 		loadTemplate('list');
 	} else {
 		console.log('no list id: ', routeInfo);
@@ -60,19 +56,22 @@
 				break;
 			case 'list':
 				req('GET', '/html/list.html', function (response) {
+					APP.root.innerHTML = response;
+					APP.itemList = byId('itemList');
+
 					if(APP.listId) {
 						req('GET', '/' + APP.listId, function (response) {
-							response = JSON.parse(response);
-							console.log('response', response);
+							if(response.length !== 0) {
+								response = JSON.parse(response);
+								console.log('response', response);
 
-							response.items.forEach(function (item) {
-								addItem(item.item);
-							})
+								response.items.forEach(function (item) {
+									addItem(item.item);
+								})
+							}
 						});
 					}
 
-					APP.root.innerHTML = response;
-					APP.itemList = byId('itemList');
 
 					var itemInput = byId('inputAddItem');
 

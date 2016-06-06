@@ -10,13 +10,12 @@ public class IndexController {
 
   @RequestMapping("/")
   public String index() {
-    return "html/index.html";
+    return "/html/index.html";
   }
 
   @RequestMapping(value = "/list/{someid}")
   public String list(@PathVariable("someid") String someid) {
-    System.out.println("List");
-    return "html/list.html";
+    return "/html/index.html";
   }
 
 }
