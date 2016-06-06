@@ -97,10 +97,10 @@
 		var item = d.createElement('li');
 		item.innerText = val;
 		APP.itemList.appendChild(item);
-		item.addEventListener('click', function () {
-			console.log('remove item');
-			item.remove();
-		});
+		// item.addEventListener('click', function () {
+		// 	console.log('remove item');
+		// 	item.remove();
+		// });
 	}
 
 	function req(method, url, cb) {
